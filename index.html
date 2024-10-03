@@ -44,6 +44,9 @@
             z-index: 999; /* Ensure it stays above everything else */
             pointer-events: none; /* Disable hover/click interaction */
         }
+        .hidden {
+            display: none; /* Class to hide elements */
+        }
 
         /* Shake effect */
         @keyframes shake {
@@ -63,7 +66,11 @@
 </head>
 <body>
     <div class="fade-in-text" id="endText">END</div>
-    <img src="https://th.bing.com/th?&id=OVP.ZOIBDAqdu7ZNCoyV1RW6igHgFo&w=274&h=153&c=7&pid=2.1&rs=1" alt="Adventure Image" id="clickableImage">
+    <img src="https://th.bing.com/th?&id=OVP.ZOIBDAqdu7ZNCoyV1RW6igHgFo&w=274&h=153&c=7&pid=2.1" alt="Adventure Image" id="clickableImage">
+    
+    <!-- Second image hidden by default -->
+    <img src="https://th.bing.com/th/id/OIP.SP2zTz2ldbntjZvJCdDJdgHaHa?w=143&h=180&c=7&r=0&o=5&pid=1.7" alt="Secret Image" id="secretImage" class="hidden">
+
     <div>
         <p>Type the secret to continue the adventure:</p>
         <input type="text" id="userInput" placeholder="Type the secret...">
@@ -78,8 +85,9 @@
         
         document.getElementById('clickableImage').addEventListener('click', () => {
             clickCount++;
-            if (clickCount === 1592) {
+            if (clickCount === 1) {
                 showEndText();
+                showSecretImage();
             }
         });
 
@@ -88,12 +96,20 @@
             endText.style.opacity = 1; // Fade in the text
         }
 
+        function showSecretImage() {
+            const secretImage = document.getElementById('secretImage');
+            secretImage.classList.remove('hidden'); // Remove the hidden class
+            setTimeout(() => {
+                secretImage.style.display = 'none'; // Hide the image after 900 seconds
+            }, 900000); // 900 seconds in milliseconds
+        }
+
         function checkInput() {
             const input = document.getElementById('userInput').value;
             const correctAnswer = atob(encodedAnswer); // Decode the answer
             
             if (input.toLowerCase() === correctAnswer.toLowerCase()) {
-                alert('Adventure continues!');
+                alert('Da Skibbi\'s Computoras!'); // Updated alert message
                 // Here you can redirect or take the next action.
             } else {
                 alert('Try again!');
