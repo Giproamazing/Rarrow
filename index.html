@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Game</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        img {
+            width: 274px; /* Original image size */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 20px;
+            cursor: pointer; /* Change cursor to pointer */
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            background-color: grey; /* Set input box background to grey */
+            border: none; /* Remove border */
+            color: white; /* Text color inside input */
+            border-radius: 5px; /* Add rounded corners */
+            margin-bottom: 20px; /* Space between input and button */
+        }
+        .fade-in-text {
+            position: absolute; /* Position it above the image */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust to perfect center */
+            color: red; /* Text color */
+            font-size: 48px; /* Font size */
+            opacity: 0; /* Start invisible */
+            transition: opacity 500s; /* Fade in over 500 seconds */
+            z-index: 999; /* Ensure it stays above everything else */
+            pointer-events: none; /* Disable hover/click interaction */
+        }
+
+        /* Shake effect */
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) translateX(0); }
+            10% { transform: translate(-50%, -50%) translateX(-10px); }
+            20% { transform: translate(-50%, -50%) translateX(10px); }
+            30% { transform: translate(-50%, -50%) translateX(-10px); }
+            40% { transform: translate(-50%, -50%) translateX(10px); }
+            50% { transform: translate(-50%, -50%) translateX(-10px); }
+            60% { transform: translate(-50%, -50%) translateX(10px); }
+            70% { transform: translate(-50%, -50%) translateX(-10px); }
+            80% { transform: translate(-50%, -50%) translateX(10px); }
+            90% { transform: translate(-50%, -50%) translateX(-10px); }
+            100% { transform: translate(-50%, -50%) translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="fade-in-text" id="endText">END</div>
+    <img src="https://th.bing.com/th?&id=OVP.ZOIBDAqdu7ZNCoyV1RW6igHgFo&w=274&h=153&c=7&pid=2.1&rs=1" alt="Adventure Image" id="clickableImage">
+    <div>
+        <p>Type the secret to continue the adventure:</p>
+        <input type="text" id="userInput" placeholder="Type the secret...">
+        <button onclick="checkInput()">Submit</button>
+    </div>
+
+    <script>
+        let clickCount = 0;
+
+        // Encoded answer (base64 encoding of "t.j eklaberg")
+        const encodedAnswer = "dC5qIGVrbGFiZXJn"; // Base64 for "t.j eklaberg"
+        
+        document.getElementById('clickableImage').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 1592) {
+                showEndText();
+            }
+        });
+
+        function showEndText() {
+            const endText = document.getElementById('endText');
+            endText.style.opacity = 1; // Fade in the text
+        }
+
+        function checkInput() {
+            const input = document.getElementById('userInput').value;
+            const correctAnswer = atob(encodedAnswer); // Decode the answer
+            
+            if (input.toLowerCase() === correctAnswer.toLowerCase()) {
+                alert('Adventure continues!');
+                // Here you can redirect or take the next action.
+            } else {
+                alert('Try again!');
+            }
+        }
+
+        // Start shaking and then fade in the text after 50 seconds
+        window.onload = function() {
+            const endText = document.getElementById('endText');
+            endText.style.animation = 'shake 0.3s'; // Start shaking animation
+
+            // Fade in the text after 50 seconds
+            setTimeout(() => {
+                endText.style.opacity = 1; // Fade in the text over 500 seconds
+            }, 50000); // 50 seconds in milliseconds
+        };
+    </script>
+</body>
+</html>
